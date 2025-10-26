@@ -16,7 +16,11 @@ pub fn main() !void {
     const command_name = args[1];
 
     if (std.mem.eql(u8, command_name, "init")) {
-        try command.init();
+        if (args.len < 3) {
+            print.println("Project name is empty");
+        } else {
+            try command.init(args[2]);
+        }
     } else if (std.mem.eql(u8, command_name, "build")) {
         try command.build();
     } else if (std.mem.eql(u8, command_name, "run")) {

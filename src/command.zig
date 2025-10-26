@@ -1,7 +1,7 @@
 const print = @import("print.zig");
 
-pub fn init() !void {
-    print.println("init");
+pub fn init(name: []u8) !void {
+    print.printlnf("init project `{s}`", .{name});
 }
 
 pub fn build() !void {
