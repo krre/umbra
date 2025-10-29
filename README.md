@@ -1,2 +1,2 @@
-# umbra
-Low-level binary programming language
+# Umbra
+Low-level binary programming language.
