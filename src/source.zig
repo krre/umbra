@@ -8,6 +8,7 @@ pub fn create(io: std.Io, name: []const u8) !void {
 
     try dir.createDir(io, name, std.Io.File.Permissions.default_dir);
     const app_dir = try dir.openDir(io, name, .{ .iterate = true });
+    defer app_dir.close(io);
 
     const file = try app_dir.createFile(io, "app.umbra", .{ .read = true, .truncate = true });
     defer file.close(io);
