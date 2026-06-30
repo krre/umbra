@@ -3,10 +3,11 @@ const umbra = @import("umbra");
 const print = @import("print.zig");
 const command = @import("command.zig");
 
-pub fn main() !void {
-    const allocator = std.heap.page_allocator;
-    const args = try std.process.argsAlloc(allocator);
-    defer std.process.argsFree(allocator, args);
+pub fn main(init: std.process.Init) !void {
+    const io = init.io;
+
+    const arena: std.mem.Allocator = init.arena.allocator();
+    const args = try init.minimal.args.toSlice(arena);
 
     if (args.len == 1) {
         print.println("Umbra");
@@ -19,7 +20,7 @@ pub fn main() !void {
         if (args.len < 3) {
             print.println("Project name is empty");
         } else {
-            try command.init(args[2]);
+            try command.init(io, args[2]);
         }
     } else if (std.mem.eql(u8, command_name, "build")) {
         try command.build();
