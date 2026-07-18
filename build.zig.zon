@@ -2,7 +2,7 @@
     .name = .umbra,
     .version = "0.0.0",
     .fingerprint = 0x52b3e28828da7c58,
-    .minimum_zig_version = "0.15.2",
+    .minimum_zig_version = "0.16.0",
     .dependencies = .{},
     .paths = .{
         "build.zig",
