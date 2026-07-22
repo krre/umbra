@@ -10,7 +10,7 @@ pub fn main(init: std.process.Init) !void {
     const args = try init.minimal.args.toSlice(arena);
 
     if (args.len == 1) {
-        print.println("Umbra");
+        print.printlnf("Umbra {s}", .{umbra.build_options.version});
         return;
     }
 

@@ -1,8 +1,10 @@
 const std = @import("std");
+const pkg = @import("build.zig.zon");
 
 pub fn build(b: *std.Build) void {
     const target = b.standardTargetOptions(.{});
     const optimize = b.standardOptimizeOption(.{});
+
     const mod = b.addModule("umbra", .{
         .root_source_file = b.path("src/root.zig"),
         .target = target,
@@ -19,6 +21,10 @@ pub fn build(b: *std.Build) void {
             },
         }),
     });
+
+    const options = b.addOptions();
+    options.addOption([]const u8, "version", pkg.version);
+    mod.addOptions("build_options", options);
 
     b.installArtifact(exe);
 
