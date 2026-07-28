@@ -1,6 +1,5 @@
 const std = @import("std");
 const build_options = @import("build_options");
-const print = @import("print.zig");
 const command = @import("command.zig");
 const fatal = std.process.fatal;
 
@@ -15,18 +14,22 @@ const usage =
 
 pub fn run(io: std.Io, args: []const []const u8) !void {
     if (args.len == 0) {
-        print.print(usage);
+        try std.Io.File.stdout().writeStreamingAll(io, usage);
         return;
     }
+
+    var buffer: [1024]u8 = undefined;
+    var writer = std.Io.File.stdout().writer(io, &buffer);
 
     const arg = args[0];
 
     if (std.mem.startsWith(u8, arg, "-")) {
         if (std.mem.eql(u8, arg, "-v") or std.mem.eql(u8, arg, "--version")) {
-            print.printlnf("{s}", .{build_options.version});
+            try writer.interface.print("{s}", .{build_options.version});
+            try writer.interface.flush();
             return;
         } else if (std.mem.eql(u8, arg, "-h") or std.mem.eql(u8, arg, "--help")) {
-            print.print(usage);
+            try std.Io.File.stdout().writeStreamingAll(io, usage);
             return;
         } else {
             fatal("unrecognized option: '{s}'", .{arg});
@@ -37,7 +40,7 @@ pub fn run(io: std.Io, args: []const []const u8) !void {
 
     if (std.mem.eql(u8, command_name, "init")) {
         if (args.len < 2) {
-            print.println("Project name is empty");
+            fatal("project name is empty", .{});
         } else {
             try command.init(io, args[1]);
         }
@@ -46,6 +49,6 @@ pub fn run(io: std.Io, args: []const []const u8) !void {
     } else if (std.mem.eql(u8, command_name, "run")) {
         try command.run();
     } else {
-        print.println("Unknown command");
+        fatal("unknown command: '{s}'", .{command_name});
     }
 }
