@@ -13,13 +13,14 @@ const usage =
 ;
 
 pub fn run(io: std.Io, args: []const []const u8) !void {
-    if (args.len == 0) {
-        try std.Io.File.stdout().writeStreamingAll(io, usage);
-        return;
-    }
-
     var buffer: [1024]u8 = undefined;
     var writer = std.Io.File.stdout().writer(io, &buffer);
+
+    if (args.len == 0) {
+        try writer.interface.writeAll(usage);
+        try writer.interface.flush();
+        return;
+    }
 
     const arg = args[0];
 
@@ -29,7 +30,8 @@ pub fn run(io: std.Io, args: []const []const u8) !void {
             try writer.interface.flush();
             return;
         } else if (std.mem.eql(u8, arg, "-h") or std.mem.eql(u8, arg, "--help")) {
-            try std.Io.File.stdout().writeStreamingAll(io, usage);
+            try writer.interface.writeAll(usage);
+            try writer.interface.flush();
             return;
         } else {
             fatal("unrecognized option: '{s}'", .{arg});
