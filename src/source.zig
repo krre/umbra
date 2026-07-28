@@ -1,5 +1,4 @@
 const std = @import("std");
-const print = @import("print.zig");
 const fmt = std.fmt;
 
 pub fn create(io: std.Io, name: []const u8) !void {
@@ -15,5 +14,5 @@ pub fn create(io: std.Io, name: []const u8) !void {
 
     try file.writeStreamingAll(io, "@app");
 
-    print.printlnf("init source `{s}`", .{name});
+    std.debug.print("init source `{s}`\n", .{name});
 }
