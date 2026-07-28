@@ -1,7 +1,7 @@
 const std = @import("std");
-const umbra = @import("umbra");
 const print = @import("print.zig");
 const command = @import("command.zig");
+const build_options = @import("build_options");
 
 pub fn main(init: std.process.Init) !void {
     const io = init.io;
@@ -10,7 +10,7 @@ pub fn main(init: std.process.Init) !void {
     const args = try init.minimal.args.toSlice(arena);
 
     if (args.len == 1) {
-        print.printlnf("Umbra {s}", .{umbra.build_options.version});
+        print.printlnf("Umbra {s}", .{build_options.version});
         return;
     }
 
