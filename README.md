@@ -1,2 +1,2 @@
 # Umbra
-Low-level binary programming language for WebAssembly target.
+2D programming language for WebAssembly target.
