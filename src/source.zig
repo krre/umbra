@@ -9,7 +9,7 @@ pub fn create(io: std.Io, name: []const u8) !void {
     const app_dir = try dir.openDir(io, name, .{ .iterate = true });
     defer app_dir.close(io);
 
-    const file = try app_dir.createFile(io, "app.umbra", .{ .read = true, .truncate = true });
+    const file = try app_dir.createFile(io, "main.umbra", .{ .read = true, .truncate = true });
     defer file.close(io);
 
     try file.writeStreamingAll(io, "@app");
