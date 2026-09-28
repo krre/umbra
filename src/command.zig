@@ -1,5 +1,5 @@
-const std = @import("std");
 const source = @import("source.zig");
+const std = @import("std");
 
 pub fn init(io: std.Io, name: []const u8) !void {
     try source.create(io, name);

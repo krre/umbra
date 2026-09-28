@@ -1,6 +1,6 @@
-const std = @import("std");
 const build_options = @import("build_options");
 const command = @import("command.zig");
+const std = @import("std");
 const fatal = std.process.fatal;
 
 const usage =
